@@ -1,8 +1,12 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
 # This file is for anyone who does not want to package up their kernel and just want to install it
 
-#!/bin/bash
+SCRIPT_DIR = "$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")"
 
-cd linux-kern
+cd $SCRIPT_DIR/linux-kern
 echo "==> Installing modules..."
 make modules_install
 
