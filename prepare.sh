@@ -17,10 +17,10 @@ echo "==> Grabbing patches..."
 mkdir all-patches
 git clone https://anongit.gentoo.org/git/proj/linux-patches.git gentoo-patches
 mv gentoo-patches/*.patch all-patches/
-rm -r gentoo-patches
+rm -rf gentoo-patches
 git clone https://github.com/Redecorating/mbp-16.1-linux-wifi t2-patches
 mv t2-patches/*.patch all-patches/
-rm -r t2-patches
+rm -rf t2-patches
 
 echo "==> Grabbing apple-bce and apple-ibridge..."
 git clone https://github.com/t2linux/apple-bce-drv apple-bce
@@ -33,9 +33,9 @@ for i in apple-bce apple-ibridge; do
  
 echo "==> Applying patches..."
 cd linux-kern
-for i in all-patches/*.patch; do
+for i in ../all-patches/*.patch; do
   echo "==> Applying patch $i..."
-  patch -Np1 < "../$i"
+  patch -Np1 < "$i"
 done
 
 echo "==> Setting config..."
