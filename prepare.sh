@@ -7,14 +7,14 @@ set -euo pipefail
 # Then downloads all patches needed and applies them.
 
 KERNEL_VERSION=5.16.1
-SCRIPT_DIR = "$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")"
+SCRIPT_DIR="$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")"
 
 echo "==> Downloading Linux Kernel version ${KERNEL_VERSION}..."
 curl -o $SCRIPT_DIR/linux.tar.xz https://cdn.kernel.org/pub/linux/kernel/v${KERNEL_VERSION//.*}.x/linux-${KERNEL_VERSION}.tar.xz
 
 echo "==> Unpacking Linux Kernel..."
 tar xf $SCRIPT_DIR/linux.tar.xz
-mv $SCRIPT_DIR/linux-${KERNEL_VERSION} $SCRIPT_DIR/linux-kern
+mv $SCRIPT_DIR/linux-${KERNEL_VERSION} $SCRIPT_DIR/linux-t2
 
 echo "==> Grabbing patches..."
 mkdir $SCRIPT_DIR/all-patches
@@ -30,19 +30,19 @@ git clone https://github.com/t2linux/apple-bce-drv $SCRIPT_DIR/apple-bce
 git clone https://github.com/t2linux/apple-ib-drv $SCRIPT_DIR/apple-ibridge
 for i in apple-bce apple-ibridge; do
   echo "==> Copying $i to drivers/staging..."
-  mkdir $SCRIPT_DIR/linux-kern/drivers/staging/$i
-  cp -r $SCRIPT_DIR/$i/* $SCRIPT_DIR/linux-kern/drivers/staging/$i/
+  mkdir $SCRIPT_DIR/linux-t2/drivers/staging/$i
+  cp -r $SCRIPT_DIR/$i/* $SCRIPT_DIR/linux-t2/drivers/staging/$i/
  done
  
 echo "==> Applying patches..."
-cd $SCRIPT_DIR/linux-kern
+cd $SCRIPT_DIR/linux-t2
 for i in $SCRIPT_DIR/all-patches/*.patch; do
   echo "==> Applying patch $i..."
   patch -Np1 < "$i"
 done
 
 echo "==> Setting config..."
-cp `git -C "${SCRIPT_DIR}" rev-parse --show-toplevel`/config $SCRIPT_DIR/linux-kern/.config
+cp `git -C "${SCRIPT_DIR}" rev-parse --show-toplevel`/config $SCRIPT_DIR/linux-t2/.config
 make olddefconfig
 
 echo "Finished preparing. You may now run build.sh and package.sh."
