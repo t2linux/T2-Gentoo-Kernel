@@ -17,8 +17,9 @@ echo "==> Creating linux-t2-${KERNEL_VERSION}.tar.xz..."
 cp $SCRIPT_DIR/linux-t2/config-${KERNEL_VERSION} $SCRIPT_DIR/boot/
 cp $SCRIPT_DIR/linux-t2/System.map-${KERNEL_VERSION} $SCRIPT_DIR/boot/
 cp $SCRIPT_DIR/linux-t2/vmlinuz-${KERNEL_VERSION} $SCRIPT_DIR/boot/
-# TODO: Copy kernel modules to $SCRIPT_DIR/lib/modules/linux-t2
-tar -cz $SCRIPT_DIR/boot > $SCRIPT_DIR/linux-t2-${KERNEL_VERSION}.tar.xz
+cd $SCRIPT_DIR/linux-t2
+INSTALL_MOD_PATH=$SCRIPT_DIR/lib make modules_install
+tar -cz $SCRIPT_DIR/boot $SCRIPT_DIR/lib > $SCRIPT_DIR/linux-t2-${KERNEL_VERSION}.tar.xz
 
 echo "==> Creating linux-t2-src-${KERNEL_VERSION}.tar.xz..."
 cp $SCRIPT_DIR/linux-t2/* $SCRIPT_DIR/usr/src/linux-t2/

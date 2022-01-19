@@ -44,5 +44,6 @@ done
 echo "==> Setting config..."
 cp `git -C "${SCRIPT_DIR}" rev-parse --show-toplevel`/config $SCRIPT_DIR/linux-t2/.config
 make olddefconfig
+#make mod2yesconfig # uncomment this line to convert everything that would've been built as a module to be built-in (not recommended because of bloat)
 
-echo "Finished preparing. You may now run build.sh and package.sh."
+echo "Finished preparing. You may now run build.sh"

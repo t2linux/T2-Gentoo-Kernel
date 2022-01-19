@@ -13,4 +13,4 @@ echo "==> Building the Linux Kernel..."
 cd $SCRIPT_DIR/linux-t2
 make all -j${NUM_JOBS}
 
-echo "==> Done. Now run package.sh and extract the archives to the according location."
+echo "==> Done."

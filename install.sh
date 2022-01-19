@@ -12,6 +12,5 @@ make modules_install
 
 echo "==> Installing Linux Kernel..."
 make install
-make clean
 
 echo "Done installing the Linux Kernel."
