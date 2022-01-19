@@ -1,0 +1,32 @@
+name: Build the Kernel and package it
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Build in Docker
+        run: |
+          cat << EOF > dockerBuild.sh
+          cd /build
+          useradd builduser -m
+          passwd -d builduser
+          USE=zstd emerge kmod
+          emerge pahole sudo
+          printf 'builduser ALL=(ALL) ALL\\n' | tee -a /etc/sudoers
+          chown -R builduser:builduser ./
+          sudo -u builduser gpg --keyserver keyserver.ubuntu.com --recv-keys 38DBBDC86092693E
+          sudo -u builduser bash -c "chmod +x prepare.sh; ./prepare.sh; chmod +x build.sh; ./build.sh; chmod +x package.sh; ./package.sh"
+          EOF
+          
+          docker run -t -v $PWD:/build gentoo/stage3 /bin/bash /build/entrypoint.sh
+          
+      - name: Upload Packages
+        uses: actions/upload-artifact@v2
+        with:
+          name: built-packages
+          path: ${{ github.workspace }}/linux-t2-*.tar.xz
+          
+      # TODO: if CI is confirmed to work, then create a tag and make a release with the artifacts
