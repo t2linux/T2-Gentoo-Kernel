@@ -13,12 +13,15 @@ jobs:
           cd /build
           useradd builduser -m
           passwd -d builduser
-          USE=zstd emerge kmod
-          emerge pahole sudo
+          emerge --sync
+          emerge --verbose --update --deep --newuse @world
+          USE=zstd emerge sys-apps/kmod
+          emerge dev-util/pahole app-admin/sudo
           printf 'builduser ALL=(ALL) ALL\\n' | tee -a /etc/sudoers
           chown -R builduser:builduser ./
           sudo -u builduser gpg --keyserver keyserver.ubuntu.com --recv-keys 38DBBDC86092693E
-          sudo -u builduser bash -c "chmod +x prepare.sh; ./prepare.sh; chmod +x build.sh; ./build.sh; chmod +x package.sh; ./package.sh"
+          sudo -u builduser bash -c "chmod +x prepare.sh && chmod +x build.sh && chmod +x package.sh
+          sudo -u builduser bash -c "./prepare.sh && ./build.sh && ./package.sh"
           EOF
           
           docker run -t -v $PWD:/build gentoo/stage3 /bin/bash /build/dockerBuild.sh
