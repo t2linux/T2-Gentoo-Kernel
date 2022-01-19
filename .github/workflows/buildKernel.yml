@@ -21,7 +21,7 @@ jobs:
           sudo -u builduser bash -c "chmod +x prepare.sh; ./prepare.sh; chmod +x build.sh; ./build.sh; chmod +x package.sh; ./package.sh"
           EOF
           
-          docker run -t -v $PWD:/build gentoo/stage3 /bin/bash /build/entrypoint.sh
+          docker run -t -v $PWD:/build gentoo/stage3 /bin/bash /build/dockerBuild.sh
           
       - name: Upload Packages
         uses: actions/upload-artifact@v2
