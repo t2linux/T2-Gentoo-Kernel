@@ -20,7 +20,7 @@ jobs:
           printf 'builduser ALL=(ALL) ALL\\n' | tee -a /etc/sudoers
           chown -R builduser:builduser ./
           sudo -u builduser gpg --keyserver keyserver.ubuntu.com --recv-keys 38DBBDC86092693E
-          sudo -u builduser bash -c "chmod +x prepare.sh && chmod +x build.sh && chmod +x package.sh
+          sudo -u builduser bash -c "chmod +x prepare.sh && chmod +x build.sh && chmod +x package.sh"
           sudo -u builduser bash -c "./prepare.sh && ./build.sh && ./package.sh"
           EOF
           
