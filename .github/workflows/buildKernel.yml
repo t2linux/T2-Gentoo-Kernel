@@ -15,8 +15,8 @@ jobs:
           passwd -d builduser
           emerge --sync
           emerge --verbose --update --deep --newuse @world
-          USE=zstd emerge sys-apps/kmod
-          emerge dev-util/pahole app-admin/sudo
+          USE=zstd emerge sys-apps/kmod 
+          emerge dev-util/pahole app-admin/sudo dev-vcs/git net-misc/curl dev-libs/libelf app-arch/cpio dev-lang/perl
           printf 'builduser ALL=(ALL) ALL\\n' | tee -a /etc/sudoers
           chown -R builduser:builduser ./
           sudo -u builduser gpg --keyserver keyserver.ubuntu.com --recv-keys 38DBBDC86092693E
