@@ -23,7 +23,7 @@ INSTALL_PATH=$SCRIPT_DIR/boot make install
 tar -cz $SCRIPT_DIR/boot $SCRIPT_DIR/lib > $SCRIPT_DIR/linux-t2-${KERNEL_VERSION}.tar.xz
 
 echo "==> Creating linux-t2-src-${KERNEL_VERSION}.tar.xz..."
-cp $SCRIPT_DIR/linux-t2/* $SCRIPT_DIR/usr/src/linux-t2/
+cp -r $SCRIPT_DIR/linux-t2/* $SCRIPT_DIR/usr/src/linux-t2/
 cd $SCRIPT_DIR/usr/src/linux-t2
 make clean
 tar -cz $SCRIPT_DIR/usr > $SCRIPT_DIR/linux-t2-src-${KERNEL_VERSION}.tar.xz
