@@ -14,7 +14,7 @@ mkdir -p $SCRIPT_DIR/lib/modules/linux-t2
 mkdir -p $SCRIPT_DIR/usr/src/linux-t2
 
 echo "==> Creating linux-t2-${KERNEL_VERSION}.tar.xz..."
-cp $SCRIPT_DIR/linux-t2/config $SCRIPT_DIR/boot/config-${KERNEL_VERSION}
+cp $SCRIPT_DIR/linux-t2/.config $SCRIPT_DIR/boot/config-${KERNEL_VERSION}
 cp $SCRIPT_DIR/linux-t2/System.map-${KERNEL_VERSION} $SCRIPT_DIR/boot/
 cp $SCRIPT_DIR/linux-t2/vmlinuz-${KERNEL_VERSION} $SCRIPT_DIR/boot/
 cd $SCRIPT_DIR/linux-t2
