@@ -3,10 +3,20 @@ on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
+      - name: Free up disk space for the CI
+        run: |
+          df -h
+          echo "==> Cleaning up disk space for the CI..."
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          df -h
+    
       - name: Checkout repo
         uses: actions/checkout@v2
+        
       - name: Build in Docker
         run: |
           cat << EOF > dockerBuild.sh
