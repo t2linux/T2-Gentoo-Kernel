@@ -16,7 +16,7 @@ jobs:
           emerge --sync
           emerge --verbose --update --deep --newuse @world
           USE=zstd emerge sys-apps/kmod 
-          emerge dev-util/pahole app-admin/sudo dev-vcs/git net-misc/curl dev-lang/perl #app-arch/cpio
+          emerge dev-util/pahole app-admin/sudo dev-vcs/git net-misc/curl dev-lang/perl sys-devel/bc app-arch/cpio
           printf 'builduser ALL=(ALL) ALL\\n' | tee -a /etc/sudoers
           chown -R builduser:builduser ./
           sudo -u builduser gpg --keyserver keyserver.ubuntu.com --recv-keys 38DBBDC86092693E
