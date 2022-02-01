@@ -1,5 +1,5 @@
 name: Build the Kernel and package it
-on: [push, pull_request]
+on: [push]
 
 jobs:
   build:
@@ -24,7 +24,7 @@ jobs:
           useradd builduser -m
           passwd -d builduser
           emerge --sync
-          emerge --verbose --update --deep --newuse @world
+          emerge --update --deep --newuse @world
           USE=zstd emerge sys-apps/kmod 
           emerge dev-util/pahole app-admin/sudo dev-vcs/git net-misc/curl dev-lang/perl sys-devel/bc app-arch/cpio
           printf 'builduser ALL=(ALL) ALL\\n' | tee -a /etc/sudoers
@@ -42,4 +42,28 @@ jobs:
           name: built-packages
           path: ${{ github.workspace }}/linux-t2-*.tar.xz
           
-      # TODO: if CI is confirmed to work, then create a tag and make a release with the artifacts
+      - name: Create Tag
+        id: create_tag
+        run: |
+          source INFO
+          echo "::set-output name=tag::${PKG_VERSION}"
+          echo $PKG_VERSION
+          if ! curl -s https://github.com/EmreTech/T2-Gentoo-Kernel/releases/tag/${PKG_VERSION} > /dev/null
+          then RELEASE=true
+          else RELEASE=false
+          fi
+          echo Release: $RELEASE
+          echo "::set-output name=RELEASE::${RELEASE}"
+
+      - name: Release
+        if: ${{ steps.create_tag.outputs.RELEASE == "true" }}
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ${{ github.workspace }}/linux-t2-*.tar.xz
+          tag_name: ${{ steps.create_tag.outputs.tag }}
+          draft: true
+          body : |
+            Read the README file for install instructions.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

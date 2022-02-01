@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+KERNEL_VERSION=5.16.4
+PKG_VERSION=v${KERNEL_VERSION}-1

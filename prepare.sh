@@ -6,7 +6,8 @@ set -euo pipefail
 # It first fetches the latest Linux Kernel (that is both supported by gentoo-sources and the t2-linux patches)
 # Then downloads all patches needed and applies them.
 
-KERNEL_VERSION=5.16.1
+source INFO
+
 SCRIPT_DIR="$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")"
 
 echo "==> Downloading Linux Kernel version ${KERNEL_VERSION}..."
