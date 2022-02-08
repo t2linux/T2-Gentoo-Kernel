@@ -23,7 +23,7 @@ jobs:
           cd /build
           useradd builduser -m
           passwd -d builduser
-          emerge --sync
+          emerge-webrsync
           emerge --update --deep --newuse @world
           USE=zstd emerge sys-apps/kmod 
           emerge dev-util/pahole app-admin/sudo dev-vcs/git net-misc/curl dev-lang/perl sys-devel/bc app-arch/cpio
@@ -40,7 +40,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: built-packages
-          path: ${{ github.workspace }}/linux-t2-*.tar.xz
+          path: ${{ github.workspace }}/linux-*-t2-*.tar.xz
           
       - name: Create Tag
         id: create_tag

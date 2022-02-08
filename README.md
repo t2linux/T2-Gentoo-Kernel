@@ -4,7 +4,7 @@ Linux Kernels for Gentoo customized to support T2 Macs
 
 ## Installing from CI packages
 
-Download the files from the latest release. You should have two tar files called `linux-t2-[VERSION].tar.xz` and `linux-t2-src-[VERSION].tar.xz`.
+Download the files from the latest release. You should have two tar files called `linux-[VERSION]-t2-img.tar.xz` and `linux-[VERSION]-t2-src.tar.xz`.
 
 Extract both tar archives and go into the build folder from those tar archives. \
 Copy the files from the `boot` folder to `/boot`. \

@@ -15,7 +15,7 @@ curl -o $SCRIPT_DIR/linux.tar.xz https://cdn.kernel.org/pub/linux/kernel/v${KERN
 
 echo "==> Unpacking Linux Kernel..."
 tar xf $SCRIPT_DIR/linux.tar.xz
-mv $SCRIPT_DIR/linux-${KERNEL_VERSION} $SCRIPT_DIR/linux-t2
+mv $SCRIPT_DIR/linux-${KERNEL_VERSION} $SCRIPT_DIR/${KERNEL_DIR}
 
 echo "==> Grabbing patches..."
 mkdir $SCRIPT_DIR/all-patches
@@ -31,19 +31,19 @@ git clone https://github.com/t2linux/apple-bce-drv $SCRIPT_DIR/apple-bce
 git clone https://github.com/t2linux/apple-ib-drv $SCRIPT_DIR/apple-ibridge
 for i in apple-bce apple-ibridge; do
   echo "==> Copying $i to drivers/staging..."
-  mkdir $SCRIPT_DIR/linux-t2/drivers/staging/$i
-  cp -r $SCRIPT_DIR/$i/* $SCRIPT_DIR/linux-t2/drivers/staging/$i/
+  mkdir $SCRIPT_DIR/${KERNEL_DIR}/drivers/staging/$i
+  cp -r $SCRIPT_DIR/$i/* $SCRIPT_DIR/${KERNEL_DIR}/drivers/staging/$i/
  done
  
 echo "==> Applying patches..."
-cd $SCRIPT_DIR/linux-t2
+cd $SCRIPT_DIR/${KERNEL_DIR}
 for i in $SCRIPT_DIR/all-patches/*.patch; do
   echo "==> Applying patch $i..."
   patch -Np1 < "$i"
 done
 
 echo "==> Setting config..."
-cp `git -C "${SCRIPT_DIR}" rev-parse --show-toplevel`/config $SCRIPT_DIR/linux-t2/.config
+cp `git -C "${SCRIPT_DIR}" rev-parse --show-toplevel`/config $SCRIPT_DIR/${KERNEL_DIR}/.config
 make olddefconfig
 #make mod2yesconfig # uncomment this line to convert everything that would've been built as a module to be built-in (not recommended because of bloat)
 
