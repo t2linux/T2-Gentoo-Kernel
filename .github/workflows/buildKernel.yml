@@ -50,11 +50,11 @@ jobs:
           echo $PKG_VERSION
 
       - name: Release
-        if: ${{ github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, '[no rel]') }}
+        if: ${{ github.ref == 'refs/heads/Mainline' && !contains(github.event.head_commit.message, '[no rel]') }}
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            ${{ github.workspace }}/linux-t2-*.tar.xz
+            ${{ github.workspace }}/linux-*-t2-*.tar.xz
           tag_name: ${{ steps.create_tag.outputs.tag }}
           draft: ${{ contains(github.event.head_commit.message, '[draft]') }}
           prerelease: ${{ contains(github.event.head_commit.message, '[prerel]') }}
