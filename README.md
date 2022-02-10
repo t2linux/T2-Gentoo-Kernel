@@ -2,6 +2,8 @@
 
 Linux Kernels for Gentoo customized to support T2 Macs
 
+This branch has been deprecated. Please checkout the Mainline or LTS branches.
+
 ## Installing from CI packages
 
 Download the files from the latest release. You should have two tar files called `linux-[VERSION]-t2-img.tar.xz` and `linux-[VERSION]-t2-src.tar.xz`.
