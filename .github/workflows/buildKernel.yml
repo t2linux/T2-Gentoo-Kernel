@@ -58,6 +58,7 @@ jobs:
           tag_name: ${{ steps.create_tag.outputs.tag }}
           draft: ${{ contains(github.event.head_commit.message, '[draft]') }}
           prerelease: ${{ contains(github.event.head_commit.message, '[prerel]') }}
+          target_commitish: Mainline
           body : |
             Read the README file for install instructions.
         env:
