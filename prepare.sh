@@ -10,12 +10,8 @@ source INFO
 
 SCRIPT_DIR="$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")"
 
-echo "==> Downloading Linux Kernel version ${KERNEL_VERSION}..."
-curl -o $SCRIPT_DIR/linux.tar.xz https://cdn.kernel.org/pub/linux/kernel/v${KERNEL_VERSION//.*}.x/linux-${KERNEL_VERSION}.tar.xz
-
-echo "==> Unpacking Linux Kernel..."
-tar xf $SCRIPT_DIR/linux.tar.xz
-mv $SCRIPT_DIR/linux-${KERNEL_VERSION} $SCRIPT_DIR/${KERNEL_DIR}
+echo "==> Downloading Mainline Linux Kernel source tree from t2linux/kernel..."
+git clone -b ${BRANCH_NAME} https://github.com/t2linux/kernel $SCRIPT_DIR/${KERNEL_DIR}
 
 echo "==> Grabbing patches..."
 mkdir $SCRIPT_DIR/all-patches
@@ -23,7 +19,9 @@ git clone https://anongit.gentoo.org/git/proj/linux-patches.git $SCRIPT_DIR/gent
 mv $SCRIPT_DIR/gentoo-patches/*.patch $SCRIPT_DIR/all-patches/
 rm -rf $SCRIPT_DIR/gentoo-patches
 git clone https://github.com/Redecorating/mbp-16.1-linux-wifi $SCRIPT_DIR/t2-patches
-mv $SCRIPT_DIR/t2-patches/*.patch $SCRIPT_DIR/all-patches/
+# this grabs only the patches that embed apple-bce and apple-ibridge into the kernel source tree
+# since the t2linux/kernel repo has most of the patches applied to the source tree already
+mv $SCRIPT_DIR/t2-patches/1*.patch $SCRIPT_DIR/all-patches/
 rm -rf $SCRIPT_DIR/t2-patches
 
 echo "==> Grabbing apple-bce and apple-ibridge..."
