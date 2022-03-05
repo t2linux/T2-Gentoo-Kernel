@@ -10,8 +10,10 @@ source INFO
 
 SCRIPT_DIR="$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")"
 
-echo "==> Downloading LTS Linux Kernel source tree from t2linux/kernel..."
-git clone -b ${BRANCH_NAME} https://github.com/t2linux/kernel $SCRIPT_DIR/${KERNEL_DIR}
+echo "==> Downloading & extracting modified Linux Kernel source tree..."
+curl -L -o $SCRIPT_DIR/linux-${KERNEL_VERSION}.tar.gz https://github.com/t2linux/kernel/archive/refs/tags/${TAG_NAME}.tar.gz
+tar xf $SCRIPT_DIR/linux-${KERNEL_VERSION}.tar.gz
+mv $SCRIPT_DIR/kernel-${TAG_NAME} $SCRIPT_DIR/${KERNEL_DIR}
 
 echo "==> Grabbing patches..."
 mkdir $SCRIPT_DIR/all-patches
