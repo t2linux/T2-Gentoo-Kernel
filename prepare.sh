@@ -18,7 +18,7 @@ mv $SCRIPT_DIR/kernel-${TAG_NAME} $SCRIPT_DIR/${KERNEL_DIR}
 echo "==> Grabbing patches..."
 mkdir $SCRIPT_DIR/all-patches
 git clone -b ${GENTOO_PATCHES_BRANCH} https://anongit.gentoo.org/git/proj/linux-patches.git $SCRIPT_DIR/gentoo-patches
-+rm $SCRIPT_DIR/gentoo-patches/*_linux-*.patch
+rm $SCRIPT_DIR/gentoo-patches/*_linux-*.patch
 mv $SCRIPT_DIR/gentoo-patches/*.patch $SCRIPT_DIR/all-patches/
 rm -rf $SCRIPT_DIR/gentoo-patches
 git clone https://github.com/Redecorating/mbp-16.1-linux-wifi $SCRIPT_DIR/t2-patches
