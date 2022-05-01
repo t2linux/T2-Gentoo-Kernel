@@ -3,7 +3,7 @@
 set -euo pipefail
 
 # This file prepares for compiling the kernel.
-# It first fetches the latest Linux Kernel (that is both supported by gentoo-sources and the t2-linux patches)
+# It first fetches the latest Linux Kernel (that is both supported by gentoo-sources and the t2linux patches)
 # Then downloads all patches needed and applies them.
 
 source INFO
@@ -17,7 +17,8 @@ mv $SCRIPT_DIR/kernel-${TAG_NAME} $SCRIPT_DIR/${KERNEL_DIR}
 
 echo "==> Grabbing patches..."
 mkdir $SCRIPT_DIR/all-patches
-git clone https://anongit.gentoo.org/git/proj/linux-patches.git $SCRIPT_DIR/gentoo-patches
+git clone -b ${GENTOO_PATCHES_BRANCH} https://anongit.gentoo.org/git/proj/linux-patches.git $SCRIPT_DIR/gentoo-patches
+rm $SCRIPT_DIR/gentoo-patches/*_linux-*.patch
 mv $SCRIPT_DIR/gentoo-patches/*.patch $SCRIPT_DIR/all-patches/
 rm -rf $SCRIPT_DIR/gentoo-patches
 git clone https://github.com/Redecorating/mbp-16.1-linux-wifi $SCRIPT_DIR/t2-patches
