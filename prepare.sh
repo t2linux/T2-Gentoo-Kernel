@@ -3,22 +3,25 @@
 set -euo pipefail
 
 # This file prepares for compiling the kernel.
-# It first fetches the latest Linux Kernel (that is both supported by gentoo-sources and the t2-linux patches)
+# It first fetches the latest Linux Kernel (that is both supported by gentoo-sources and the t2linux patches)
 # Then downloads all patches needed and applies them.
 
 source INFO
 
 SCRIPT_DIR="$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")"
 
-echo "==> Downloading LTS Linux Kernel source tree from t2linux/kernel..."
-git clone -b ${BRANCH_NAME} https://github.com/t2linux/kernel $SCRIPT_DIR/${KERNEL_DIR}
+echo "==> Downloading & extracting modified Linux Kernel source tree..."
+curl -L -o $SCRIPT_DIR/linux-${KERNEL_VERSION}.tar.gz https://github.com/t2linux/kernel/archive/refs/tags/${TAG_NAME}.tar.gz
+tar xf $SCRIPT_DIR/linux-${KERNEL_VERSION}.tar.gz
+mv $SCRIPT_DIR/kernel-${TAG_NAME} $SCRIPT_DIR/${KERNEL_DIR}
 
 echo "==> Grabbing patches..."
 mkdir $SCRIPT_DIR/all-patches
-git clone https://anongit.gentoo.org/git/proj/linux-patches.git $SCRIPT_DIR/gentoo-patches
+git clone -b ${GENTOO_PATCHES_BRANCH} https://anongit.gentoo.org/git/proj/linux-patches.git $SCRIPT_DIR/gentoo-patches
++rm $SCRIPT_DIR/gentoo-patches/*_linux-*.patch
 mv $SCRIPT_DIR/gentoo-patches/*.patch $SCRIPT_DIR/all-patches/
 rm -rf $SCRIPT_DIR/gentoo-patches
-git clone https://github.com/Redecorating/mbp-16.1-linux-wifi.git $SCRIPT_DIR/t2-patches
+git clone https://github.com/Redecorating/mbp-16.1-linux-wifi $SCRIPT_DIR/t2-patches
 # this grabs only the patches that embed apple-bce and apple-ibridge into the kernel source tree
 # since the t2linux/kernel repo has most of the patches applied to the source tree already
 mv $SCRIPT_DIR/t2-patches/1*.patch $SCRIPT_DIR/all-patches/

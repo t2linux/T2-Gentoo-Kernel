@@ -10678,3 +10678,21 @@ CONFIG_ARCH_USE_MEMTEST=y
 # CONFIG_HYPERV_TESTING is not set
 # end of Kernel Testing and Coverage
 # end of Kernel hacking
+
+#
+# Gentoo Linux
+#
+CONFIG_GENTOO_LINUX=y
+CONFIG_GENTOO_LINUX_UDEV=y
+CONFIG_GENTOO_LINUX_PORTAGE=y
+
+#
+# Support for init systems, system and service managers
+#
+CONFIG_GENTOO_LINUX_INIT_SCRIPT=y
+CONFIG_GENTOO_LINUX_INIT_SYSTEMD=y
+# end of Support for init systems, system and service managers
+
+# CONFIG_GENTOO_KERNEL_SELF_PROTECTION is not set
+CONFIG_GENTOO_PRINT_FIRMWARE_INFO=y
+# end of Gentoo Linux
